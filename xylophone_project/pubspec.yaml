@@ -22,5 +22,6 @@ flutter:
   uses-material-design: true
 
   assets:
+    - images/Slice1.png
     - assets/
 
