@@ -141,25 +141,25 @@ class _EditorState extends State<Editor> {
         child: FindSelectedOrNot(context),
         //if find selected, create new body.
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.undo),
-              title: Text("Undo"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.redo),
-            title: Text("Redo"),
-          )
-        ],
-        selectedItemColor: Colors.tealAccent,
-        onTap: (index){
-          print(index);
-          setState(() {
-
-          });
-        },
-      ),
+//      bottomNavigationBar: BottomNavigationBar(
+//        items: const <BottomNavigationBarItem> [
+//          BottomNavigationBarItem(
+//              icon: Icon(Icons.undo),
+//              title: Text("Undo"),
+//          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.redo),
+//            title: Text("Redo"),
+//          )
+//        ],
+//        selectedItemColor: Colors.tealAccent,
+//        onTap: (index){
+//          print(index);
+//          setState(() {
+//
+//          });
+//        },
+//      ),
     );
   }
 
