@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/material.dart';
 import 'SaveFunctionality.dart';
+import 'constantsFile.dart';
 
 class NewOption{
     String filenameEntered='';
@@ -11,15 +12,7 @@ class NewOption{
       return Alert(
           context: context,
           title: 'Save Current File?',
-          style: AlertStyle(
-            animationType: AnimationType.fromBottom,
-            animationDuration: Duration(milliseconds: 500),
-            titleStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-            ),
-
-          ),
+          style: kAlertStyle,
           buttons: [
             DialogButton(
               color: Colors.teal,
@@ -30,7 +23,7 @@ class NewOption{
               },
               child: Text(
                 "Save",
-                style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.normal),
+                style: kButtonStyle,
               ),
             ),
             DialogButton(
@@ -38,7 +31,7 @@ class NewOption{
               onPressed: () => Navigator.pop(context),
               child: Text(
                 "Discard",
-                style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.normal),
+                style:kButtonStyle,
               ),
             )
           ]

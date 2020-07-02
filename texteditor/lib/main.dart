@@ -1,12 +1,12 @@
-import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:texteditor/constantsFile.dart';
 import 'package:texteditor/CloseFunctionality.dart';
 import 'NewFunctionality.dart';
 import 'SaveFunctionality.dart';
 import 'OpenFunctionality.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'constantsFile.dart';
 
 void main(){
   runApp(
@@ -231,14 +231,8 @@ class _EditorState extends State<Editor> {
             decoration: InputDecoration(
               labelText: 'Find Text',
               focusColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(color: Colors.white,width: 1.0,style: BorderStyle.solid)
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: Colors.white,width: 1.0,style: BorderStyle.solid),
-              ),
+              enabledBorder: kEnabledBorder,
+              focusedBorder: kFocusedBorder,
             ),
           ),
         ),
@@ -286,14 +280,8 @@ class _EditorState extends State<Editor> {
             decoration: InputDecoration(
               labelText: 'Replace With',
               focusColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  borderSide: BorderSide(color: Colors.white,width: 1.0,style: BorderStyle.solid)
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: Colors.white,width: 1.0,style: BorderStyle.solid),
-              ),
+              enabledBorder: kEnabledBorder,
+              focusedBorder: kFocusedBorder,
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:io';
+import 'constantsFile.dart';
 
 class CloseOption {
 
@@ -8,15 +9,7 @@ class CloseOption {
     return Alert(
         context: context,
         title: 'Do You Want to Exit?',
-        style: AlertStyle(
-          animationType: AnimationType.fromBottom,
-          animationDuration: Duration(milliseconds: 500),
-          titleStyle: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.normal,
-          ),
-
-        ),
+        style: kAlertStyle,
         buttons: [
           DialogButton(
             color: Colors.teal,
@@ -25,9 +18,7 @@ class CloseOption {
             },
             child: Text(
               "Yes",
-              style: TextStyle(color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal),
+              style: kButtonStyle,
             ),
           ),
           DialogButton(
@@ -35,9 +26,7 @@ class CloseOption {
             onPressed: () => Navigator.pop(context),
             child: Text(
               "No",
-              style: TextStyle(color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal),
+              style: kButtonStyle,
             ),
           )
         ]

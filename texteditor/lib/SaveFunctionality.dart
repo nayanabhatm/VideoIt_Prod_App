@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:texteditor/constantsFile.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:async';
 import 'FileStorage.dart';
+import 'constantsFile.dart';
 
 
 class SaveOption {
@@ -12,14 +14,7 @@ class SaveOption {
     return Alert(
         context: context,
         title: 'Save As',
-        style: AlertStyle(
-            animationType: AnimationType.fromTop,
-            animationDuration: Duration(milliseconds: 500),
-            titleStyle: TextStyle(
-              color: Colors.white
-            ),
-
-        ),
+        style: kAlertStyle,
         content: Column(
           children: [
             TextField(
@@ -37,12 +32,31 @@ class SaveOption {
           DialogButton(
             color: Colors.teal,
             onPressed: () {
-              FileStorage().saveFile(userEnteredData,filenameEntered);
-              Navigator.pop(context);
+              if(filenameEntered.length>0){
+                FileStorage().saveFile(userEnteredData,filenameEntered);
+                Navigator.pop(context);
+              }
+              else{
+                Alert(
+                  context: context,
+                  title: "Enter the File Name",
+                  style: kAlertStyle,
+                  buttons: [
+                    DialogButton(
+                      color: Colors.teal,
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        "Cancel",
+                        style: kButtonStyle,
+                      ),
+                  )
+                  ]
+                ).show();
+              }
             },
             child: Text(
               "Save",
-              style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
+              style: kButtonStyle,
             ),
           ),
           DialogButton(
@@ -50,7 +64,7 @@ class SaveOption {
             onPressed: () => Navigator.pop(context),
             child: Text(
               "Cancel",
-              style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
+              style: kButtonStyle,
             ),
           )
         ]
