@@ -31,6 +31,9 @@ dependencies:
   permission_handler: ^5.0.1+1
   video_player: ^0.10.11+2
   video_thumbnail: ^0.2.2
+  gallery_saver: ^2.0.1
+  share_extend: ^1.1.9
+  chewie: ^0.9.10
 
 
 dev_dependencies:
