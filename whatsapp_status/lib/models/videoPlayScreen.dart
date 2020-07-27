@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
 import 'saveImageOrVideo.dart';
-import 'constants.dart';
+import '../constants.dart';
 import 'shareImageOrVideo.dart';
 import 'package:chewie/chewie.dart';
 
@@ -33,6 +33,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Videos"),
         backgroundColor: Colors.black,
@@ -43,7 +44,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                   tooltip: "Save",
                   icon: Icon(Icons.save),
                   onPressed: (){
-                    saveImageVideo.saveVideo(widget.videoFileName);
+                   // saveImageVideo.saveVideo(widget.videoFileName);
                     Scaffold.of(context).showSnackBar(kSnackBarForVideoSave);
                   },
                 ),
@@ -67,8 +68,11 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
       ),
       body: Center(
         child: Container(
-            child: Chewie(
-              controller: chewieController,
+            child: AspectRatio(
+              aspectRatio:videoPlayerController.value.aspectRatio,
+              child: Chewie(
+                controller: chewieController,
+              ),
             )
         ),
       ),
@@ -79,19 +83,19 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
     videoPlayerController= VideoPlayerController.file(File(widget.videoFileName));
 
     chewieController = ChewieController(
+      aspectRatio:videoPlayerController.value.aspectRatio,
       videoPlayerController: videoPlayerController,
-      aspectRatio: videoPlayerController.value.aspectRatio,
       autoPlay: true,
       looping: true,
       cupertinoProgressColors: ChewieProgressColors(
           handleColor: Colors.lightGreenAccent,
           bufferedColor: Colors.grey,
-          playedColor: Colors.white
+          playedColor: Colors.white,
       ),
       materialProgressColors: ChewieProgressColors(
         handleColor: Colors.lightGreenAccent,
           bufferedColor: Colors.grey,
-          playedColor: Colors.white
+          playedColor: Colors.white,
       ),
     );
 

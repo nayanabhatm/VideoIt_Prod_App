@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsappstatus/constants.dart';
 import 'dart:io';
 import 'saveImageOrVideo.dart';
-import 'constants.dart';
+import '../constants.dart';
 import 'shareImageOrVideo.dart';
 
 class DisplayImage extends StatefulWidget {
@@ -23,6 +23,7 @@ class _DisplayImageState extends State<DisplayImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Images"),
         backgroundColor: Colors.black,
@@ -33,7 +34,7 @@ class _DisplayImageState extends State<DisplayImage> {
               tooltip: "Save",
               icon: Icon(Icons.save),
               onPressed: (){
-                saveImageVideo.saveImage(widget.imageFilePath);
+                SaveImageVideo.saveImage(widget.imageFilePath);
                 Scaffold.of(context).showSnackBar(kSnackBarForImageSave);
               },
             ),
@@ -56,14 +57,12 @@ class _DisplayImageState extends State<DisplayImage> {
         ],
       ),
       body: Center(
-        child: Container(
-          child: Hero(
-            tag: 'index${widget.index}',
-            child: Container(
-              child: Card(
-                color: Colors.black,
-                child: Image.file(File(widget.imageFilePath),fit: BoxFit.cover,),
-              ),
+        child: Hero(
+          tag: 'index${widget.index}',
+          child: Container(
+            child: Image.file(
+             File(widget.imageFilePath),
+             fit: BoxFit.cover,
             ),
           ),
         ),

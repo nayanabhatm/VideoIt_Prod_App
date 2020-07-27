@@ -1,9 +1,9 @@
 import 'dart:typed_data';
-import 'package:whatsappstatus/checkStoragePermission.dart';
+import 'file:///D:/Flutter_Apps/whatsapp_status/lib/models/checkStoragePermission.dart';
 import 'package:flutter/material.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'dart:io';
-import 'videoPlayScreen.dart';
+import '../models/videoPlayScreen.dart';
 import 'dart:collection';
 
 
@@ -64,11 +64,11 @@ class _VideoThumbnailsTabState extends State<VideoThumbnailsTab> with AutomaticK
     //Now, the filenames/keys are in sorted order based on lastmodified date. Reverse the keys and create a thumbnails.
     reverseSortedVideoFileNames=tempSortedVideoNameMap.keys.toList().reversed.toList();
 
-   for(int i=0;i<reverseSortedVideoFileNames.length;i++)
-   {
+    for(int i=0;i<reverseSortedVideoFileNames.length;i++)
+    {
       thumbnailImages.add(await VideoThumbnail.thumbnailData(
         video: reverseSortedVideoFileNames[i],
-        imageFormat: ImageFormat.JPEG,
+        imageFormat: ImageFormat.PNG,
         quality: 100,
       ));
     }
@@ -78,43 +78,37 @@ class _VideoThumbnailsTabState extends State<VideoThumbnailsTab> with AutomaticK
 
   }
 
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: thumbnailImages.isEmpty ? Center(child: CircularProgressIndicator()):
-      GridView.count(
-          crossAxisCount: 3,
-          children: List.generate( thumbnailImages.length, (index) {
-            return GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return VideoPlayScreen(videoFileName:reverseSortedVideoFileNames[index]);
-                }));
-              },
-              child: Container(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Card(
-                    child: Stack(
-                      fit: StackFit.expand,
-                        children: <Widget>[
-                          Image.memory(
-                              thumbnailImages[index],
-                            fit: BoxFit.cover,
-                          ),
-                          Center(
-                              child: Icon(Icons.play_circle_outline,size: 70.0,)
-                          )
-                        ],
+        child: thumbnailImages.isEmpty ? Center(
+            child: Text("No Status Available\n View WhatsApp Status and Come back Again")
+        ):
+        GridView.count(
+            crossAxisCount: 3,
+            children: List.generate( thumbnailImages.length, (index) {
+              return GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return VideoPlayScreen(videoFileName:reverseSortedVideoFileNames[index]);
+                  }));
+                },
+                child: Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: Card(
+                      child: Image.memory(
+                        thumbnailImages[index],
+                        fit: BoxFit.cover,
+                      ),
+                      elevation: 20.0,
                     ),
-                    elevation: 20.0,
                   ),
                 ),
-              ),
-            );
-          })
-      )
+              );
+            })
+        )
     );
   }
 }
