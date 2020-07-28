@@ -15,27 +15,27 @@ class VideosGrid extends StatelessWidget {
           crossAxisSpacing: 1.0,
           mainAxisSpacing: 1.0,
         ),
-        itemCount: viewModelVideosData.videoFilesCount ,
+        itemCount: viewModelVideosData.videoFilesWhatsappDirCount ,
         itemBuilder:(context,index){
           return Container(
             child: GestureDetector(
               onTap: (){
-                if(!viewModelVideosData.isSelectionModeVideosTab){
+                if(!viewModelVideosData.isLongPress){
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
                     return VideoPlayScreen(index:index, videoFileName:viewModelVideosData.videoFilesWhatsAppDir[index].videoPath);
                   })
                   );
                 }
                 else {
-                  viewModelVideosData.toggleSelectedFile(index,'videos');
+                  viewModelVideosData.toggleIsSelected(index,'videos');
                 }
               },
               onLongPress: () {
-                if(!viewModelVideosData.isSelectionModeVideosTab)
-                  viewModelVideosData.makeSelectedFilesFalse('videos');
+                if(!viewModelVideosData.isLongPress)
+                  viewModelVideosData.makeIsSelectedFilesFalse('videos');
 
-                viewModelVideosData.toggleSelectionModel('videos');
-                viewModelVideosData.toggleSelectedFile(index,'videos');
+                viewModelVideosData.toggleisLongPress();
+                viewModelVideosData.toggleIsSelected(index,'videos');
               },
 
               child: VideoCard(

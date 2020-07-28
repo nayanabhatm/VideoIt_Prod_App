@@ -4,15 +4,15 @@ class ImageFile{
 
   ImageFile({this.imagePath,this.isSelected=false});
 
-  void toggleSelected(){
+  void toggleIsSelected(){
     isSelected=!isSelected;
   }
 
-  void makeSelectedFalse(){
+  void makeIsSelectedFalse(){
     isSelected=false;
   }
 
-  void makeSelectedTrue(){
+  void makeIsSelectedTrue(){
     isSelected=true;
   }
 }

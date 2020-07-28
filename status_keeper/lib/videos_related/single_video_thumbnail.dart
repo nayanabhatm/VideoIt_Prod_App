@@ -19,13 +19,13 @@ class _VideoCardState extends State<VideoCard> with WidgetsBindingObserver{
   void initState() {
     // TODO: implement initState
     print("videocard init");
-    super.initState();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((timestamp) {
         var viewModel=Provider.of<StatusViewModel>(context,listen: false);
-        viewModel.makeSelectionModeFalse('videos');
+        viewModel.makeSelectionModeLongPressFalse();
         bytes = viewModel.getVideoThumbnailBytes(widget.videoFile.videoPath);
     });
+    super.initState();
 
   }
 
@@ -55,7 +55,7 @@ class _VideoCardState extends State<VideoCard> with WidgetsBindingObserver{
                     fit: BoxFit.cover,
                   ),
 
-                  viewModelVideosData.isSelectionModeVideosTab ?
+                  viewModelVideosData.isLongPress ?
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Icon(

@@ -23,7 +23,7 @@ class _VideoCardSavedState extends State<VideoCardSaved> with WidgetsBindingObse
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((timestamp) {
         var viewModel=Provider.of<StatusViewModel>(context,listen: false);
-        viewModel.makeSelectionModeFalse('videos');
+        viewModel.makeSelectionModeLongPressFalse();
         bytes = viewModel.getVideoThumbnailBytes(widget.videoFile.videoPath);
     });
 
@@ -55,7 +55,7 @@ class _VideoCardSavedState extends State<VideoCardSaved> with WidgetsBindingObse
                     fit: BoxFit.cover,
                   ),
 
-                  viewModelVideosData.isSelectionModeSavedVideosTab ?
+                  viewModelVideosData.isLongPress ?
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Icon(

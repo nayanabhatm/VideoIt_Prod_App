@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:statuskeeper/models/status_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:statuskeeper/saved_related/single_image_card_saved.dart';
-import 'package:statuskeeper/screens/displayImageScreen.dart';
+import 'package:statuskeeper/saved_related/displayImageScreen_saved_tab.dart';
 
 class ImagesGridSavedTab extends StatelessWidget {
 
@@ -21,22 +21,22 @@ class ImagesGridSavedTab extends StatelessWidget {
             return Container(
               child: GestureDetector(
                 onTap: (){
-                  if(!viewModelImagesData.isSelectionModeSavedImagesTab){
+                  if(!viewModelImagesData.isLongPress){
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return DisplayImage(index: index, imageFilePath: viewModelImagesData.imageFilesSavedDir[index].imagePath,);
+                      return DisplayImageSavedTab(index: index, imageFilePath: viewModelImagesData.imageFilesSavedDir[index].imagePath,);
                     })
                     );
                   }
                   else {
-                    viewModelImagesData.toggleSelectedFile(index,'savedImages');
+                    viewModelImagesData.toggleIsSelected(index,'savedImages');
                   }
                 },
                 onLongPress: () {
-                  if(!viewModelImagesData.isSelectionModeSavedImagesTab)
-                    viewModelImagesData.makeSelectedFilesFalse('savedImages');
+                  if(!viewModelImagesData.isLongPress)
+                    viewModelImagesData.makeIsSelectedFilesFalse('savedImages');
 
-                  viewModelImagesData.toggleSelectionModel('savedImages');
-                  viewModelImagesData.toggleSelectedFile(index,'savedImages');
+                  viewModelImagesData.toggleisLongPress();
+                  viewModelImagesData.toggleIsSelected(index,'savedImages');
                 },
 
                 child: Hero(

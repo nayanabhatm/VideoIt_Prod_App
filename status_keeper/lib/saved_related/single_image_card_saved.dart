@@ -23,7 +23,7 @@ class ImageCardSaved extends StatelessWidget {
               //color: imageFile.isSelected ? Colors.transparent.withOpacity(0) : Colors.transparent.withOpacity(0),
             ),
 
-            viewModelImagesData.isSelectionModeSavedImagesTab ?
+            viewModelImagesData.isLongPress ?
              Align(
               alignment: Alignment.bottomRight,
               child: Icon(

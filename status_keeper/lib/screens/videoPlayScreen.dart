@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
-import 'package:statuskeeper/functionalities/saveImageOrVideo.dart';
 import 'package:statuskeeper/constants.dart';
 import 'package:statuskeeper/functionalities/shareImageOrVideo.dart';
 import 'package:chewie/chewie.dart';

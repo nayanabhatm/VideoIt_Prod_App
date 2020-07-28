@@ -20,22 +20,22 @@ class VideosGridSavedTab extends StatelessWidget {
             return Container(
               child: GestureDetector(
                 onTap: (){
-                  if(!viewModelVideosData.isSelectionModeSavedVideosTab){
+                  if(!viewModelVideosData.isLongPress){
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
                       return VideoPlayScreen(index:index, videoFileName:viewModelVideosData.videoFilesSavedDir[index].videoPath);
                     })
                     );
                   }
                   else {
-                    viewModelVideosData.toggleSelectedFile(index,'savedVideos');
+                    viewModelVideosData.toggleIsSelected(index,'savedVideos');
                   }
                 },
                 onLongPress: () {
-                  if(!viewModelVideosData.isSelectionModeSavedVideosTab)
-                    viewModelVideosData.makeSelectedFilesFalse('savedVideos');
+                  if(!viewModelVideosData.isLongPress)
+                    viewModelVideosData.makeIsSelectedFilesFalse('savedVideos');
 
-                  viewModelVideosData.toggleSelectionModel('savedVideos');
-                  viewModelVideosData.toggleSelectedFile(index,'savedVideos');
+                  viewModelVideosData.toggleisLongPress();
+                  viewModelVideosData.toggleIsSelected(index,'savedVideos');
                 },
 
                 child: VideoCardSaved(

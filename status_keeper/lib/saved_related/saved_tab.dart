@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/constants.dart';
 import 'package:statuskeeper/models/status_view_model.dart';
 import 'package:statuskeeper/saved_related/images_grid_saved.dart';
 import 'package:statuskeeper/saved_related/videos_grid_saved.dart';
@@ -12,6 +11,13 @@ class SavedTab extends StatefulWidget {
 }
 
 class _SavedTabState extends State<SavedTab> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +42,12 @@ class _SavedTabState extends State<SavedTab> {
              ),
            ],
            onPressed: (int index){
-               viewModel.toggleToggleButtons(index);
+               viewModel.toggleSavedTabToggleButtons(index);
+               viewModel.makeSelectionModeLongPressFalse();
            },
-           isSelected: viewModel.toggleButtons,
+           isSelected: viewModel.savedTabToggleButtons,
          ),
-         (viewModel.toggleButtonImage)? Expanded(
+         (viewModel.savedTabToggleButtonImage)? Expanded(
            child:ImagesGridSavedTab() ,
          ): Expanded(
            child:VideosGridSavedTab() ,

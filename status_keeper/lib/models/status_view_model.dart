@@ -13,28 +13,25 @@ class StatusViewModel extends ChangeNotifier{
   final Directory whatsAppStatusDirectory = Directory('/storage/emulated/0/WhatsApp/Media/.Statuses');
   final Directory savedFilesDirectory = Directory('/storage/emulated/0/Status Keeper');
 
-  bool _isSelectionModeImagesTab = false;
-  bool _isSelectionModeVideosTab=false;
-  bool _isSelectionModeSavedImagesTab=false;
-  bool _isSelectionModeSavedVideosTab=false;
-  bool _selectAll=false;
+  bool _isLongPress = false;
+  bool _isSelectAll=false;
 
-  List<bool> _toggleButtonSelection=[true,false];
+  List<bool> _savedTabToggleButtons=[true,false];
   List<ImageFile> _imageFilesWhatsappDir=[];
   List<VideoFile> _videoFilesWhatsappDir=[];
   List<ImageFile> _imageFilesSavedDir=[];
   List<VideoFile> _videoFilesSavedDir=[];
 
-  void toggleToggleButtons(int index){
-    for (int i = 0; i < _toggleButtonSelection.length; i++) {
-      _toggleButtonSelection[i] = i == index;
+  void toggleSavedTabToggleButtons(int index){
+    for (int i = 0; i < _savedTabToggleButtons.length; i++) {
+      _savedTabToggleButtons[i] = i == index;
     }
     notifyListeners();
   }
 
-  bool get toggleButtonImage => _toggleButtonSelection[0];
-  bool get toggleButtonVideo => _toggleButtonSelection[1];
-  List<bool> get toggleButtons => _toggleButtonSelection;
+  bool get savedTabToggleButtonImage => _savedTabToggleButtons[0];
+  bool get savedTabToggleButtonVideo => _savedTabToggleButtons[1];
+  List<bool> get savedTabToggleButtons => _savedTabToggleButtons;
 
 
   Future<Uint8List> getVideoThumbnailBytes(String path) async{
@@ -47,65 +44,33 @@ class StatusViewModel extends ChangeNotifier{
   }
 
 
-  bool get isSelectionModeImagesTab => _isSelectionModeImagesTab;
-  bool get isSelectionModeVideosTab => _isSelectionModeVideosTab;
-  bool get isSelectionModeSavedVideosTab => _isSelectionModeSavedVideosTab;
-  bool get isSelectionModeSavedImagesTab => _isSelectionModeSavedImagesTab;
+  bool get isLongPress => _isLongPress;
 
-  void makeSelectionModeFalse(String type){
-    if(type=='images')
-      {
-        _isSelectionModeImagesTab=false;
-      }
-    else if(type=='videos')
-      {
-        _isSelectionModeVideosTab=false;
-      }
-    else if(type=='savedImages')
-      {
-        _isSelectionModeSavedImagesTab=false;
-      }
-    else if(type=='savedVideos')
-      {
-        _isSelectionModeSavedVideosTab=false;
-      }
+
+  void makeSelectionModeLongPressFalse(){
+    _isLongPress=false;
     notifyListeners();
   }
 
-  void toggleSelectionModel(String type){
-    if(type=='images')
-    {
-      _isSelectionModeImagesTab=!_isSelectionModeImagesTab;
-    }
-    else if(type=='videos')
-    {
-      _isSelectionModeVideosTab=!_isSelectionModeVideosTab;
-    }
-    else if(type=='savedImages')
-    {
-      _isSelectionModeSavedImagesTab=!_isSelectionModeSavedImagesTab;
-    }
-    else if(type=='savedVideos')
-    {
-      _isSelectionModeSavedVideosTab=!_isSelectionModeSavedVideosTab;
-    }
+  void toggleisLongPress(){
+    _isLongPress=!_isLongPress;
     notifyListeners();
   }
 
 
-  bool get selectAll => _selectAll;
-  void toggleSelectAll(){
-    _selectAll=!_selectAll;
+  bool get isSelectAll => _isSelectAll;
+  void toggleIsSelectAll(){
+    _isSelectAll=!_isSelectAll;
     notifyListeners();
   }
-  void makeSelectAllFalse(){
-    _selectAll=false;
+  void makeIsSelectAllFalse(){
+    _isSelectAll=false;
     notifyListeners();
   }
 
 
-  int get imageFilesCount => _imageFilesWhatsappDir.length;
-  int get videoFilesCount => _videoFilesWhatsappDir.length;
+  int get imageFilesWhatsappDirCount => _imageFilesWhatsappDir.length;
+  int get videoFilesWhatsappDirCount => _videoFilesWhatsappDir.length;
   int get imageFilesSavedDirCount => _imageFilesSavedDir.length;
   int get videoFilesSavedDirCount => _videoFilesSavedDir.length;
 
@@ -193,14 +158,14 @@ class StatusViewModel extends ChangeNotifier{
     if(type=='images')
     {
       await SaveImageVideo.saveImage(path);
-      makeSelectedFilesFalse('savedImages');
+      makeIsSelectedFilesFalse('savedImages');
       clearFilesList('savedImages');
       addFilesToList('savedImages');
     }
     else if(type=='videos')
     {
       await SaveImageVideo.saveVideo(path);
-      makeSelectedFilesFalse('savedVideos');
+      makeIsSelectedFilesFalse('savedVideos');
       clearFilesList('savedVideos');
       addFilesToList('savedVideos');
     }
@@ -221,6 +186,9 @@ class StatusViewModel extends ChangeNotifier{
           await SaveImageVideo.saveImage(element.imagePath);
         }
       }
+      makeIsSelectedFilesFalse('savedImages');
+      clearFilesList('savedImages');
+      addFilesToList('savedImages');
     }
     else if(type=='videos')
     {
@@ -231,103 +199,123 @@ class StatusViewModel extends ChangeNotifier{
           await SaveImageVideo.saveVideo(element.videoPath);
         }
       }
+      makeIsSelectedFilesFalse('savedVideos');
+      clearFilesList('savedVideos');
+      addFilesToList('savedVideos');
     }
 
-    makeSelectedFilesFalse('savedImages');
-    clearFilesList('savedImages');
-    addFilesToList('savedImages');
-
-    makeSelectedFilesFalse('savedVideos');
-    clearFilesList('savedVideos');
-    addFilesToList('savedVideos');
-
+    toggleisLongPress();
     notifyListeners();
   }
 
+  void isSelectAllButtonFunctionality(String type){
+
+      toggleIsSelectAll();
+      if (isSelectAll) {
+        makeIsSelectedTrue(type);
+      }
+      else if (type=='images' && !isSelectAll && countOfFilesSelected(type) != imageFilesWhatsappDirCount) {
+        makeIsSelectedTrue(type);
+      }
+      else if (type=='videos' && !isSelectAll && countOfFilesSelected(type) != videoFilesWhatsappDirCount) {
+        makeIsSelectedTrue(type);
+      }
+      else if (type=='savedImages' && !isSelectAll && countOfFilesSelected(type) != imageFilesSavedDirCount) {
+        makeIsSelectedTrue(type);
+      }
+      else if (type=='savedVideos' && !isSelectAll && countOfFilesSelected(type) != videoFilesSavedDirCount) {
+        makeIsSelectedTrue(type);
+      }
+      else if (!isSelectAll) {
+        makeIsSelectedFilesFalse(type);
+        toggleisLongPress();
+      }
+
+  }
 
   List<ImageFile> get imageFilesWhatsAppDir => _imageFilesWhatsappDir;
   List<VideoFile> get videoFilesWhatsAppDir => _videoFilesWhatsappDir;
   List<ImageFile> get imageFilesSavedDir => _imageFilesSavedDir;
   List<VideoFile> get videoFilesSavedDir => _videoFilesSavedDir;
 
-  void toggleSelectedFile(int index,String type){
+  void toggleIsSelected(int index,String type){
     if(type=='images')
     {
       ImageFile image=_imageFilesWhatsappDir[index];
-      image.toggleSelected();
+      image.toggleIsSelected();
     }
     else if(type=='videos')
     {
       VideoFile video=_videoFilesWhatsappDir[index];
-      video.toggleSelected();
+      video.toggleIsSelected();
     }
     else if(type=='savedImages')
     {
       ImageFile image=_imageFilesSavedDir[index];
-      image.toggleSelected();
+      image.toggleIsSelected();
     }
     else if(type=='savedVideos')
     {
       VideoFile video=_videoFilesSavedDir[index];
-      video.toggleSelected();
+      video.toggleIsSelected();
     }
     notifyListeners();
   }
 
 
-  void makeSelectedFilesFalse(String type){
+  void makeIsSelectedFilesFalse(String type){
     if(type=='images')
     {
       _imageFilesWhatsappDir.forEach((element) {
-        element.makeSelectedFalse();
+        element.makeIsSelectedFalse();
       });
     }
     else if(type=='videos')
     {
       _videoFilesWhatsappDir.forEach((element) {
-        element.makeSelectedFalse();
+        element.makeIsSelectedFalse();
       });
     }
     else if(type=='savedImages')
     {
         _imageFilesSavedDir.forEach((element) {
-          element.makeSelectedFalse();
+          element.makeIsSelectedFalse();
         });
     }
     else if(type=='savedVideos')
     {
         _videoFilesSavedDir.forEach((element) {
-          element.makeSelectedFalse();
+          element.makeIsSelectedFalse();
         });
     }
     notifyListeners();
   }
 
 
-  void makeSelectedFilesTrue(String type){
+  void makeIsSelectedTrue(String type){
 
     if(type=='images')
     {
       _imageFilesWhatsappDir.forEach((element) {
-        element.makeSelectedTrue();
+        element.makeIsSelectedTrue();
       });
     }
     else if(type=='videos')
     {
       _videoFilesWhatsappDir.forEach((element) {
-        element.makeSelectedTrue();
+        element.makeIsSelectedTrue();
       });
     }
     else if(type=='savedImages')
     {
       _imageFilesSavedDir.forEach((element) {
-        element.makeSelectedTrue();
+        element.makeIsSelectedTrue();
       });
     }
     else if(type=='savedVideos')
     {
       _videoFilesSavedDir.forEach((element) {
-        element.makeSelectedTrue();
+        element.makeIsSelectedTrue();
       });
     }
     notifyListeners();
@@ -407,14 +395,14 @@ class StatusViewModel extends ChangeNotifier{
 
   Future<void> deleteSingleFile(String path,String type) async{
     if(type=='savedImages'){
-      await File(path).delete();
-      makeSelectedFilesFalse('savedImages');
+      await File(path).delete(recursive: true);
+      makeIsSelectedFilesFalse('savedImages');
       clearFilesList('savedImages');
       addFilesToList('savedImages');
     }
     else if(type=='savedVideos'){
-      await File(path).delete();
-      makeSelectedFilesFalse('savedVideos');
+      await File(path).delete(recursive: true);
+      makeIsSelectedFilesFalse('savedVideos');
       clearFilesList('savedVideos');
       addFilesToList('savedVideos');
     }
@@ -424,12 +412,13 @@ class StatusViewModel extends ChangeNotifier{
     if(type=='savedImages'){
       _imageFilesSavedDir.forEach((element) async{
         if(element.isSelected){
-          await File(element.imagePath).delete();
+          print("-------------------------${element.imagePath}");
+          await File(element.imagePath).delete(recursive: true);
         }
 
       });
 
-      makeSelectedFilesFalse('savedImages');
+      makeIsSelectedFilesFalse('savedImages');
       clearFilesList('savedImages');
       addFilesToList('savedImages');
 
@@ -437,16 +426,17 @@ class StatusViewModel extends ChangeNotifier{
     else if(type=='savedVideos'){
       _videoFilesSavedDir.forEach((element) async{
         if(element.isSelected){
-          await File(element.videoPath).delete();
+          await File(element.videoPath).delete(recursive: true);
         }
 
       });
 
-      makeSelectedFilesFalse('savedVideos');
+      makeIsSelectedFilesFalse('savedVideos');
       clearFilesList('savedVideos');
       addFilesToList('savedVideos');
     }
 
+    toggleisLongPress();
     notifyListeners();
   }
 

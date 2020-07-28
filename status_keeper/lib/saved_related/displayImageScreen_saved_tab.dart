@@ -6,11 +6,11 @@ import 'package:statuskeeper/constants.dart';
 import 'package:statuskeeper/functionalities/shareImageOrVideo.dart';
 import 'package:statuskeeper/models/status_view_model.dart';
 
-class DisplayImage extends StatelessWidget{
+class DisplayImageSavedTab extends StatelessWidget{
   final int index;
   final String imageFilePath;
 
-  DisplayImage({this.index,this.imageFilePath});
+  DisplayImageSavedTab({this.index,this.imageFilePath});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +24,11 @@ class DisplayImage extends StatelessWidget{
           Builder(
             builder: (context)=>
             IconButton(
-              tooltip: "Save",
-              icon: Icon(Icons.save),
+              tooltip: "Delete",
+              icon: Icon(Icons.delete),
               onPressed: (){
-                viewModelData.saveSingleFile(imageFilePath,'images');
-                Scaffold.of(context).showSnackBar(kSnackBarForSaved);
+                viewModelData.deleteSingleFile(imageFilePath,'images');
+                Scaffold.of(context).showSnackBar(kSnackBarForDelete);
               },
             ),
           ),

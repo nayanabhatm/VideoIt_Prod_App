@@ -15,27 +15,27 @@ class ImagesGrid extends StatelessWidget {
                   crossAxisSpacing: 1.0,
                   mainAxisSpacing: 1.0,
             ),
-            itemCount: viewModelImagesData.imageFilesCount ,
+            itemCount: viewModelImagesData.imageFilesWhatsappDirCount ,
             itemBuilder:(context,index){
               return Container(
                 child: GestureDetector(
                   onTap: (){
-                    if(!viewModelImagesData.isSelectionModeImagesTab){
+                    if(!viewModelImagesData.isLongPress){
                         Navigator.push(context, MaterialPageRoute(builder: (_) {
                           return DisplayImage(index: index, imageFilePath: viewModelImagesData.imageFilesWhatsAppDir[index].imagePath,);
                         })
                         );
                     }
                     else {
-                      viewModelImagesData.toggleSelectedFile(index,'images');
+                      viewModelImagesData.toggleIsSelected(index,'images');
                     }
                   },
                   onLongPress: () {
-                    if(!viewModelImagesData.isSelectionModeImagesTab)
-                            viewModelImagesData.makeSelectedFilesFalse('images');
+                    if(!viewModelImagesData.isLongPress)
+                            viewModelImagesData.makeIsSelectedFilesFalse('images');
 
-                    viewModelImagesData.toggleSelectionModel('images');
-                    viewModelImagesData.toggleSelectedFile(index,'images');
+                    viewModelImagesData.toggleisLongPress();
+                    viewModelImagesData.toggleIsSelected(index,'images');
                   },
 
                   child: Hero(
