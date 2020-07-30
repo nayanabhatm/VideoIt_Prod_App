@@ -17,16 +17,24 @@ class VideoPlayScreen extends StatefulWidget {
 }
 
 class _VideoPlayScreenState extends State<VideoPlayScreen> {
-  VideoPlayerController videoPlayerController;
-  ChewieController chewieController;
+  VideoPlayerController _videoPlayerController;
+  ChewieController _chewieController;
+  Future<void> _future;
 
   @override
   void initState() {
     super.initState();
-    videoPlayerController= VideoPlayerController.file(File(widget.videoFileName));
-    chewieController = ChewieController(
-      aspectRatio:videoPlayerController.value.aspectRatio,
-      videoPlayerController: videoPlayerController,
+    _videoPlayerController= VideoPlayerController.file(File(widget.videoFileName));
+    _future=initVideoPlayer();
+    setState(() {
+    });
+  }
+
+  Future<void> initVideoPlayer() async {
+     await _videoPlayerController.initialize();
+     _chewieController = ChewieController(
+      aspectRatio:_videoPlayerController.value.aspectRatio,
+      videoPlayerController: _videoPlayerController,
       autoPlay: true,
       looping: true,
       cupertinoProgressColors: ChewieProgressColors(
@@ -84,23 +92,30 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
           SizedBox(width: 15.0,)
         ],
       ),
-      body: Center(
-        child: Container(
-            child: AspectRatio(
-              aspectRatio:videoPlayerController.value.aspectRatio,
-              child: Chewie(
-                controller: chewieController,
-              ),
-            )
-        ),
+      body: FutureBuilder(
+        future: _future,
+        builder: (context,snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting)
+            return Container();
+          return Center(
+            child: Container(
+                child: AspectRatio(
+                  aspectRatio:_videoPlayerController.value.aspectRatio,
+                  child: Chewie(
+                    controller: _chewieController,
+                  ),
+                )
+            ),
+          );
+        },
       ),
     );
   }
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
     super.dispose();
   }
 

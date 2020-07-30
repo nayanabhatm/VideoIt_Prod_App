@@ -71,6 +71,9 @@ class _TabsState extends State<Tabs> with WidgetsBindingObserver, AutomaticKeepA
         var viewModelData=Provider.of<StatusViewModel>(context,listen: false);
         if(viewModelData.isLongPress ) {
             viewModelData.resetLongPress();
+            ['images','videos','savedImages','savedVideos'].forEach((element){
+              viewModelData.resetIsSelected(element);
+            });
             return Future<bool>.value(false);
          }
         else{

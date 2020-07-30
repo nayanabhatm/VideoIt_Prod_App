@@ -65,15 +65,28 @@ class StatusViewModel extends ChangeNotifier{
   int get imageFilesSavedDirCount => _imageFilesSavedDir.length;
   int get videoFilesSavedDirCount => _videoFilesSavedDir.length;
 
-  void resetAllValues(){
+  void resetAllValues({String type}){
     resetLongPress();
     resetIsSelectAll();
 
-    ['images','videos','savedImages','savedVideos'].forEach((element) async {
+    type??='';
+
+    if(type.length!=0){
+      print("inside if");
+      resetIsSelected(type);
+      clearFilesList(type);
+      addFilesToList(type);
+    }
+    else
+    {
+      print("inside else");
+      ['images', 'videos', 'savedImages', 'savedVideos'].forEach((
+          element) async {
         resetIsSelected(element);
         clearFilesList(element);
         addFilesToList(element);
-    });
+      });
+    }
   }
 
   int countIsSelectedFiles(String type){
@@ -150,11 +163,14 @@ class StatusViewModel extends ChangeNotifier{
   }
 
   Future<void> saveSingleFile(String path,String type) async{
-    if(type=='images')
+    if(type=='images'){
       await SaveImageVideo.saveImage(path);
-    else if(type=='videos')
+      resetAllValues(type:'savedImages');
+    }
+    else if(type=='videos'){
       await SaveImageVideo.saveVideo(path);
-    resetAllValues();
+      resetAllValues(type:'savedVideos');
+    }
     notifyListeners();
   }
   Future<void> saveMultipleFiles(String type) async{
@@ -165,6 +181,7 @@ class StatusViewModel extends ChangeNotifier{
         if(element.isSelected)
         {
           await SaveImageVideo.saveImage(element.imagePath);
+          resetAllValues(type:'savedImages');
         }
       }
     }
@@ -175,10 +192,10 @@ class StatusViewModel extends ChangeNotifier{
         if(element.isSelected)
         {
           await SaveImageVideo.saveVideo(element.videoPath);
+          resetAllValues(type:'savedVideos');
         }
       }
     }
-    resetAllValues();
     notifyListeners();
   }
 
@@ -371,6 +388,7 @@ class StatusViewModel extends ChangeNotifier{
           await File(element.imagePath).delete();
         }
       });
+      resetAllValues(type:'savedImages');
     }
     else if(type=='savedVideos'){
       _videoFilesSavedDir.forEach((element) async{
@@ -379,8 +397,8 @@ class StatusViewModel extends ChangeNotifier{
         }
 
       });
+      resetAllValues(type:'savedVideos');
     }
-    resetAllValues();
     notifyListeners();
   }
 }

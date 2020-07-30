@@ -51,6 +51,16 @@ class VideoCard extends StatelessWidget {
               else{
                 return Container(
                   color: Colors.grey.withOpacity(0.2),
+                  child: SizedBox(
+                    height: 10.0,
+                    width: 10.0,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(Colors.black),
+                        backgroundColor: Colors.lightGreen,
+                      ),
+                    ),
+                  ),
                 );
               }
             },
