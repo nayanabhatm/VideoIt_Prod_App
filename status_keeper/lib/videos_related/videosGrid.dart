@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:statuskeeper/screens/videoPlayScreen.dart';
-import 'package:statuskeeper/videos_related/single_video_thumbnail.dart';
+import 'package:statuskeeper/screens/playVideo.dart';
+import 'package:statuskeeper/videos_related/videoCard.dart';
 
 class VideosGrid extends StatelessWidget {
+//  @override
+//  _VideosGridState createState() => _VideosGridState();
+//}
+//
+//class _VideosGridState extends State<VideosGrid> with WidgetsBindingObserver{
+
+//  @override
+//  void initState() {
+//    print("videocard init");
+//    WidgetsBinding.instance.addObserver(this);
+//    WidgetsBinding.instance.addPostFrameCallback((timestamp) async {
+//        var viewModel=Provider.of<StatusViewModel>(context,listen: false);
+//        viewModel.makeSelectionModeLongPressFalse();
+//    });
+//    super.initState();
+//
+//  }
+//
+//  @override
+//  void dispose() {
+//    WidgetsBinding.instance.removeObserver(this);
+//    super.dispose();
+//  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +58,9 @@ class VideosGrid extends StatelessWidget {
               },
               onLongPress: () {
                 if(!viewModelVideosData.isLongPress)
-                  viewModelVideosData.makeIsSelectedFilesFalse('videos');
+                  viewModelVideosData.resetIsSelected('videos');
 
-                viewModelVideosData.toggleisLongPress();
+                viewModelVideosData.toggleIsLongPress();
                 viewModelVideosData.toggleIsSelected(index,'videos');
               },
 
@@ -46,6 +72,7 @@ class VideosGrid extends StatelessWidget {
         }
     );
   }
+
 }
 
 

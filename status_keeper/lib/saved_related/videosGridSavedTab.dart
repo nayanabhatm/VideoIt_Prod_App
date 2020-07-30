@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:statuskeeper/screens/videoPlayScreen.dart';
-import 'package:statuskeeper/saved_related/single_video_thumbnail_saved.dart';
+import 'package:statuskeeper/screens/playVideo.dart';
+import 'package:statuskeeper/videos_related/videoCard.dart';
 
 class VideosGridSavedTab extends StatelessWidget {
 
@@ -32,13 +32,13 @@ class VideosGridSavedTab extends StatelessWidget {
                 },
                 onLongPress: () {
                   if(!viewModelVideosData.isLongPress)
-                    viewModelVideosData.makeIsSelectedFilesFalse('savedVideos');
+                    viewModelVideosData.resetIsSelected('savedVideos');
 
-                  viewModelVideosData.toggleisLongPress();
+                  viewModelVideosData.toggleIsLongPress();
                   viewModelVideosData.toggleIsSelected(index,'savedVideos');
                 },
 
-                child: VideoCardSaved(
+                child: VideoCard(
                   videoFile:viewModelVideosData.videoFilesSavedDir[index],
                 ),
               ),

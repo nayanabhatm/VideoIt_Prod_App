@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:statuskeeper/models/image.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 
 class ImageCard extends StatelessWidget {
 
@@ -17,12 +17,17 @@ class ImageCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
+            imageFile.isSelected ? ColorFiltered(
+              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
+              child: Image.file(
+                File(imageFile.imagePath),
+                fit: BoxFit.cover,
+              ),
+            ):
             Image.file(
               File(imageFile.imagePath),
               fit: BoxFit.cover,
-              //color: imageFile.isSelected ? Colors.transparent.withOpacity(0) : Colors.transparent.withOpacity(0),
             ),
-
             viewModelImagesData.isLongPress ?
              Align(
               alignment: Alignment.bottomRight,

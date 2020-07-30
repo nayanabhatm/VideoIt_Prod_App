@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
 import 'package:statuskeeper/constants.dart';
-import 'package:statuskeeper/functionalities/shareImageOrVideo.dart';
+import 'package:statuskeeper/functionalities/shareFile.dart';
 import 'package:chewie/chewie.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 
 class VideoPlayScreen extends StatefulWidget {
   final int index;
@@ -52,7 +52,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
         title: Text("Videos"),
         backgroundColor: Colors.black,
         actions: <Widget>[
-          Builder(
+          (viewModelData.getCurrentTab==0 || viewModelData.getCurrentTab==1) ? Builder(
             builder: (context)=>
                 IconButton(
                   tooltip: "Save",
@@ -62,7 +62,18 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                     Scaffold.of(context).showSnackBar(kSnackBarForSaved);
                   },
               ),
-          ),
+          ):Container(),
+//          Builder(
+//            builder: (context)=>
+//                IconButton(
+//                  tooltip: "Delete",
+//                  icon: Icon(Icons.delete),
+//                  onPressed: (){
+//                    viewModelData.deleteSingleFile(widget.videoFileName,'videos');
+//                    Scaffold.of(context).showSnackBar(kSnackBarForDelete);
+//                  },
+//                ),
+//          ),
           IconButton(
             tooltip: "Share",
             icon: Icon(Icons.share),

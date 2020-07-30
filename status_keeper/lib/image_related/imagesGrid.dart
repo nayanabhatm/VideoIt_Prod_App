@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:statuskeeper/image_related/single_image_card.dart';
-import 'package:statuskeeper/screens/displayImageScreen.dart';
+import 'package:statuskeeper/image_related/imageCard.dart';
+import 'package:statuskeeper/screens/displayImage.dart';
 
 class ImagesGrid extends StatelessWidget {
 
@@ -32,9 +32,9 @@ class ImagesGrid extends StatelessWidget {
                   },
                   onLongPress: () {
                     if(!viewModelImagesData.isLongPress)
-                            viewModelImagesData.makeIsSelectedFilesFalse('images');
+                            viewModelImagesData.resetIsSelected('images');
 
-                    viewModelImagesData.toggleisLongPress();
+                    viewModelImagesData.toggleIsLongPress();
                     viewModelImagesData.toggleIsSelected(index,'images');
                   },
 

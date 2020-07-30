@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
-import 'package:statuskeeper/saved_related/images_grid_saved.dart';
-import 'package:statuskeeper/saved_related/videos_grid_saved.dart';
+import 'package:statuskeeper/models/viewModel.dart';
+import 'package:statuskeeper/saved_related/imagesGridSavedTab.dart';
+import 'package:statuskeeper/saved_related/videosGridSavedTab.dart';
 import 'package:provider/provider.dart';
 
 class SavedTab extends StatefulWidget {
@@ -43,7 +43,7 @@ class _SavedTabState extends State<SavedTab> {
            ],
            onPressed: (int index){
                viewModel.toggleSavedTabToggleButtons(index);
-               viewModel.makeSelectionModeLongPressFalse();
+               viewModel.resetLongPress();
            },
            isSelected: viewModel.savedTabToggleButtons,
          ),

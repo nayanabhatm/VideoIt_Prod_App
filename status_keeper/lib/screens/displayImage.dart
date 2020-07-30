@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:statuskeeper/constants.dart';
-import 'package:statuskeeper/functionalities/shareImageOrVideo.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/functionalities/shareFile.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 
 class DisplayImage extends StatelessWidget{
   final int index;
@@ -21,7 +21,7 @@ class DisplayImage extends StatelessWidget{
         title: Text("Images"),
         backgroundColor: Colors.black,
         actions: <Widget>[
-          Builder(
+          (viewModelData.getCurrentTab==0 || viewModelData.getCurrentTab==1) ? Builder(
             builder: (context)=>
             IconButton(
               tooltip: "Save",
@@ -31,7 +31,18 @@ class DisplayImage extends StatelessWidget{
                 Scaffold.of(context).showSnackBar(kSnackBarForSaved);
               },
             ),
-          ),
+          ): Container(),
+//          Builder(
+//            builder: (context)=>
+//                IconButton(
+//                  tooltip: "Delete",
+//                  icon: Icon(Icons.delete),
+//                  onPressed: (){
+//                    viewModelData.deleteSingleFile(imageFilePath,'images');
+//                    Scaffold.of(context).showSnackBar(kSnackBarForDelete);
+//                  },
+//                ),
+//          ),
           IconButton(
             tooltip: "Share",
             icon: Icon(Icons.share),

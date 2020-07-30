@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 import 'package:statuskeeper/functionalities/checkStoragePermission.dart';
-import 'package:statuskeeper/image_related/images_grid.dart';
-import 'package:statuskeeper/saved_related/saved_tab.dart';
-import 'package:statuskeeper/videos_related/videos_grid.dart';
+import 'package:statuskeeper/image_related/imagesGrid.dart';
+import 'package:statuskeeper/saved_related/savedTab.dart';
+import 'package:statuskeeper/videos_related/videosGrid.dart';
 import 'package:statuskeeper/buildAppBar.dart';
 
 
@@ -14,16 +14,11 @@ class Tabs extends StatefulWidget {
 }
 
 class _TabsState extends State<Tabs> with WidgetsBindingObserver, AutomaticKeepAliveClientMixin{
-
-  int currentTab,previousTab;
-  
-  
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    print("intit");
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -33,24 +28,15 @@ class _TabsState extends State<Tabs> with WidgetsBindingObserver, AutomaticKeepA
 
       var tabController = DefaultTabController.of(context);
       tabController.addListener(() {
-        viewModelData.makeSelectionModeLongPressFalse();
-        setState(() {
-          currentTab=tabController.index;
-          previousTab=tabController.previousIndex;
+        viewModelData.resetLongPress();
+        ['images','videos','savedImages','savedVideos'].forEach((element){
+            viewModelData.resetIsSelected(element);
         });
+          viewModelData.updateCurrentTab(tabController.index);
       });
 
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          viewModelData.makeIsSelectAllFalse();
-          viewModelData.makeSelectionModeLongPressFalse();
-
-        ['images','videos','savedImages','savedVideos'].forEach((element) {
-          viewModelData.makeIsSelectedFilesFalse(element);
-          viewModelData.clearFilesList(element);
-          viewModelData.addFilesToList(element);
-        });
-
-
+          viewModelData.resetAllValues();
       });
 
     });
@@ -64,15 +50,7 @@ class _TabsState extends State<Tabs> with WidgetsBindingObserver, AutomaticKeepA
     var viewModelData=Provider.of<StatusViewModel>(context,listen: false);
     if(state==AppLifecycleState.resumed)
     {
-      viewModelData.makeIsSelectAllFalse();
-      viewModelData.makeSelectionModeLongPressFalse();
-
-      ['images','videos','savedImages','savedVideos'].forEach((element) {
-        viewModelData.makeIsSelectedFilesFalse(element);
-        viewModelData.clearFilesList(element);
-        viewModelData.addFilesToList(element);
-      });
-
+      viewModelData.resetAllValues();
     }
   }
 
@@ -92,7 +70,7 @@ class _TabsState extends State<Tabs> with WidgetsBindingObserver, AutomaticKeepA
       onWillPop: (){
         var viewModelData=Provider.of<StatusViewModel>(context,listen: false);
         if(viewModelData.isLongPress ) {
-            viewModelData.makeSelectionModeLongPressFalse();
+            viewModelData.resetLongPress();
             return Future<bool>.value(false);
          }
         else{
@@ -102,7 +80,7 @@ class _TabsState extends State<Tabs> with WidgetsBindingObserver, AutomaticKeepA
       child: Builder(
         builder: (context){
           return Scaffold(
-            appBar: AppBarBuild().buildAppBar(context,currentTab,previousTab),
+            appBar: AppBarBuild().buildAppBar(context),
             body: TabBarView(
                 children: [
                   ImagesGrid(),

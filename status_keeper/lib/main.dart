@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/tabs/all_tabs.dart';
+import 'package:statuskeeper/tabs/tabs.dart';
 import 'package:statuskeeper/functionalities/checkStoragePermission.dart';
 import 'package:provider/provider.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

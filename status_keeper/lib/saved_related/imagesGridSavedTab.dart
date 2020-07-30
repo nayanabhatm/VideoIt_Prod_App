@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:statuskeeper/models/status_view_model.dart';
+import 'package:statuskeeper/models/viewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:statuskeeper/saved_related/single_image_card_saved.dart';
-import 'package:statuskeeper/saved_related/displayImageScreen_saved_tab.dart';
+import 'package:statuskeeper/image_related/imageCard.dart';
+import 'package:statuskeeper/screens/displayImage.dart';
 
 class ImagesGridSavedTab extends StatelessWidget {
 
@@ -23,7 +23,7 @@ class ImagesGridSavedTab extends StatelessWidget {
                 onTap: (){
                   if(!viewModelImagesData.isLongPress){
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return DisplayImageSavedTab(index: index, imageFilePath: viewModelImagesData.imageFilesSavedDir[index].imagePath,);
+                      return DisplayImage(index: index, imageFilePath: viewModelImagesData.imageFilesSavedDir[index].imagePath,);
                     })
                     );
                   }
@@ -33,15 +33,15 @@ class ImagesGridSavedTab extends StatelessWidget {
                 },
                 onLongPress: () {
                   if(!viewModelImagesData.isLongPress)
-                    viewModelImagesData.makeIsSelectedFilesFalse('savedImages');
+                    viewModelImagesData.resetIsSelected('savedImages');
 
-                  viewModelImagesData.toggleisLongPress();
+                  viewModelImagesData.toggleIsLongPress();
                   viewModelImagesData.toggleIsSelected(index,'savedImages');
                 },
 
                 child: Hero(
                   tag: 'index$index',
-                  child: ImageCardSaved(
+                  child: ImageCard(
                     imageFile:viewModelImagesData.imageFilesSavedDir[index],
                   ),
                 ),
