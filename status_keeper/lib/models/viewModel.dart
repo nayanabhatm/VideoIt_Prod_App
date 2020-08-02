@@ -72,14 +72,12 @@ class StatusViewModel extends ChangeNotifier{
     type??='';
 
     if(type.length!=0){
-      print("inside if");
       resetIsSelected(type);
       clearFilesList(type);
       addFilesToList(type);
     }
     else
     {
-      print("inside else");
       ['images', 'videos', 'savedImages', 'savedVideos'].forEach((
           element) async {
         resetIsSelected(element);
@@ -174,28 +172,37 @@ class StatusViewModel extends ChangeNotifier{
     notifyListeners();
   }
   Future<void> saveMultipleFiles(String type) async{
-    if(type=='images')
-    {
-      for(int i =0 ;i < _imageFilesWhatsappDir.length ; i++){
-        var element = _imageFilesWhatsappDir[i] ;
-        if(element.isSelected)
-        {
-          await SaveImageVideo.saveImage(element.imagePath);
-          resetAllValues(type:'savedImages');
+      if(type=='images')
+      {
+        for(int i =0 ;i < _imageFilesWhatsappDir.length ; i++){
+          var element = _imageFilesWhatsappDir[i] ;
+          if(element.isSelected)
+            try{
+            await SaveImageVideo.saveImage(element.imagePath);
+            }
+          catch(e){
+            print(e);
+          }
         }
+        resetIsSelected('images');
+        resetAllValues(type:'savedImages');
       }
-    }
-    else if(type=='videos')
-    {
-      for(int i =0 ;i < _videoFilesWhatsappDir.length ; i++){
-        var element = _videoFilesWhatsappDir[i] ;
-        if(element.isSelected)
-        {
-          await SaveImageVideo.saveVideo(element.videoPath);
-          resetAllValues(type:'savedVideos');
+      else if(type=='videos')
+      {
+        for(int i =0 ;i < _videoFilesWhatsappDir.length ; i++){
+          var element = _videoFilesWhatsappDir[i] ;
+          if(element.isSelected)
+            try{
+            await SaveImageVideo.saveVideo(element.videoPath);
+           }
+          catch(e){
+            print(e);
+          }
         }
+        resetIsSelected('videos');
+        resetAllValues(type:'savedVideos');
       }
-    }
+
     notifyListeners();
   }
 
@@ -381,24 +388,24 @@ class StatusViewModel extends ChangeNotifier{
 //    }
 //    notifyListeners();
 //  }
-  void deleteMultipleFiles(String type) {
-    if(type=='savedImages'){
-      _imageFilesSavedDir.forEach((element) async{
-        if(element.isSelected){
-          await File(element.imagePath).delete();
-        }
-      });
-      resetAllValues(type:'savedImages');
-    }
-    else if(type=='savedVideos'){
-      _videoFilesSavedDir.forEach((element) async{
-        if(element.isSelected){
-          await File(element.videoPath).delete();
-        }
-
-      });
-      resetAllValues(type:'savedVideos');
-    }
-    notifyListeners();
-  }
+//  void deleteMultipleFiles(String type) {
+//    if(type=='savedImages'){
+//      _imageFilesSavedDir.forEach((element) async{
+//        if(element.isSelected){
+//          await File(element.imagePath).delete();
+//        }
+//      });
+//      resetAllValues(type:'savedImages');
+//    }
+//    else if(type=='savedVideos'){
+//      _videoFilesSavedDir.forEach((element) async{
+//        if(element.isSelected){
+//          await File(element.videoPath).delete();
+//        }
+//
+//      });
+//      resetAllValues(type:'savedVideos');
+//    }
+//    notifyListeners();
+//  }
 }

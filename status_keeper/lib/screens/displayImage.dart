@@ -27,8 +27,13 @@ class DisplayImage extends StatelessWidget{
               tooltip: "Save",
               icon: Icon(Icons.save),
               onPressed: (){
-                viewModelData.saveSingleFile(imageFilePath,'images');
-                Scaffold.of(context).showSnackBar(kSnackBarForSaved);
+                try{
+                  viewModelData.saveSingleFile(imageFilePath,'images');
+                  Scaffold.of(context).showSnackBar(kSnackBarForSaved);
+                }
+                catch(e){
+                  print(e);
+                }
               },
             ),
           ): Container(),

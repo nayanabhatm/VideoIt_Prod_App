@@ -49,60 +49,60 @@ class AppBarBuild {
                       );
                     }
                 ) :
-                Builder(
-                  builder: (context){
-                    return IconButton(
-                      tooltip: "Delete",
-                      iconSize: 30.0,
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-
-                        Alert(
-                            style: AlertStyle(
-                              isCloseButton: false,
-                              backgroundColor: Colors.black,
-                              titleStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              )
-                            ),
-                            context: context,
-                            title: "Do You Want to Delete the File?",
-                            buttons: [
-                                DialogButton(
-                                    child: Text("Yes",style: TextStyle(color: Colors.white, fontSize: 20),),
-                                    color: Colors.lightGreen,
-                                    onPressed: () {
-                                      if (viewModel.savedTabToggleButtonImage) {
-                                        viewModel.deleteMultipleFiles(
-                                            'savedImages');
-                                        Scaffold.of(context).showSnackBar(
-                                            kSnackBarForDelete);
-                                      }
-                                      else
-                                      if (viewModel.savedTabToggleButtonVideo) {
-                                        viewModel.deleteMultipleFiles(
-                                            'savedVideos');
-                                        Scaffold.of(context).showSnackBar(
-                                            kSnackBarForDelete);
-                                      }
-                                      Navigator.pop(context);
-                                    },
-                                ),
-                                DialogButton(
-                                      child: Text("No",style: TextStyle(color: Colors.white, fontSize: 20),),
-                                      color: Colors.lightGreen,
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      },
-                                )
-
-                            ]
-                        ).show();
-                      },
-                    );
-                  },
-                ),
+//                Builder(
+//                  builder: (context){
+//                    return IconButton(
+//                      tooltip: "Delete",
+//                      iconSize: 30.0,
+//                      icon: Icon(Icons.delete),
+//                      onPressed: () {
+//
+//                        Alert(
+//                            style: AlertStyle(
+//                              isCloseButton: false,
+//                              backgroundColor: Colors.black,
+//                              titleStyle: TextStyle(
+//                                color: Colors.white,
+//                                fontSize: 16.0,
+//                              )
+//                            ),
+//                            context: context,
+//                            title: "Do You Want to Delete the File?",
+//                            buttons: [
+//                                DialogButton(
+//                                    child: Text("Yes",style: TextStyle(color: Colors.white, fontSize: 20),),
+//                                    color: Colors.lightGreen,
+//                                    onPressed: () {
+//                                      if (viewModel.savedTabToggleButtonImage) {
+//                                        viewModel.deleteMultipleFiles(
+//                                            'savedImages');
+//                                        Scaffold.of(context).showSnackBar(
+//                                            kSnackBarForDelete);
+//                                      }
+//                                      else
+//                                      if (viewModel.savedTabToggleButtonVideo) {
+//                                        viewModel.deleteMultipleFiles(
+//                                            'savedVideos');
+//                                        Scaffold.of(context).showSnackBar(
+//                                            kSnackBarForDelete);
+//                                      }
+//                                      Navigator.pop(context);
+//                                    },
+//                                ),
+//                                DialogButton(
+//                                      child: Text("No",style: TextStyle(color: Colors.white, fontSize: 20),),
+//                                      color: Colors.lightGreen,
+//                                      onPressed: (){
+//                                        Navigator.pop(context);
+//                                      },
+//                                )
+//
+//                            ]
+//                        ).show();
+//                      },
+//                    );
+//                  },
+//                ),
                 SizedBox(width: 5.0,),
                 IconButton(
                   tooltip: "Share",

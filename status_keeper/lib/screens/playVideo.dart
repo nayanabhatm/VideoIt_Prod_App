@@ -66,8 +66,13 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> {
                   tooltip: "Save",
                   icon: Icon(Icons.save),
                   onPressed: (){
-                   viewModelData.saveSingleFile(widget.videoFileName,'videos');
-                    Scaffold.of(context).showSnackBar(kSnackBarForSaved);
+                     try{
+                       viewModelData.saveSingleFile(widget.videoFileName,'videos');
+                       Scaffold.of(context).showSnackBar(kSnackBarForSaved);
+                     }
+                     catch(e){
+                       print(e);
+                     }
                   },
               ),
           ):Container(),
