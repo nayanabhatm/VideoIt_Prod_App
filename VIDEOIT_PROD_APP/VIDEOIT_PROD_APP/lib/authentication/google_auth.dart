@@ -37,7 +37,8 @@ class Auth{
       var jsonResponse = convert.jsonDecode(loginResponse.body);
 
       //update details in User object
-      User.setUserPermission(jsonResponse['permission']);
+      print("jsonResponse....$jsonResponse");
+      //User.setUserPermission(jsonResponse['permission']);
       User.setUuid(jsonResponse['uuid']);
       User.setSession(jsonResponse['session']);
       User.setUserName(jsonResponse['username']);

@@ -36,6 +36,7 @@ class LoginPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () async {
                         String loginReturnVal=await Auth.loginWithGoogle();
+                        print("loginReturnval...$loginReturnVal");
                         if(loginReturnVal=='success') {
                           Navigator.pushReplacementNamed(context, "/videoplay");
                         }

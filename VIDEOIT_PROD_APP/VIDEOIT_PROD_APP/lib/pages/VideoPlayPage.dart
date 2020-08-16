@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:videoit/authentication/google_auth.dart';
@@ -18,6 +19,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
   Future<void> _futureInitializeVideoController;
+  int likesCount=0,viewsCount=0;
 
   @override
   void initState() {
@@ -74,10 +76,11 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                          IconButton(
                            onPressed: (){
                              _videoPlayerController.pause();
-                             Navigator.pushNamed(context, '/userprofile');
+                             Navigator.pushNamed(context, '/myprofile');
                            },
                            icon: Icon(Icons.account_circle),
                            iconSize: 40.0,
+                           color: Colors.pink,
                          ),
                          Text(
                            "My Profile",
@@ -94,6 +97,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                            },
                            icon: Icon(Icons.settings),
                            iconSize: 40.0,
+                           color: Colors.blueAccent,
                          ),
                          Text(
                            "Settings",
@@ -111,6 +115,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                            },
                            icon: Icon(Icons.exit_to_app),
                            iconSize: 40.0,
+                           color: Colors.purple,
                          ),
                          Text(
                            "Sign Out",
@@ -154,8 +159,10 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text("    Description    "),
-                          Text("  Song")
+                          Text(
+                              "   Lambargini chalayi",
+                            ),
+                          Text("  Lambargini chalayi")
                         ],
                       ),
                       Row(
@@ -164,40 +171,84 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Icon(Icons.account_circle),
+                              IconButton(
+                                  icon: Icon(Icons.account_circle),
+                                  iconSize: 33.0,
+                                onPressed: (){
+                                  _videoPlayerController.pause();
+                                  Navigator.pushNamed(context, '/userprofile');
+                                },
+                              ),
                               Text('Profile')
                             ],
                           ),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Icon(Icons.thumb_up),
-                              Text('12'),
+                              IconButton(
+                                  icon: Icon(Icons.thumb_up),
+                                  iconSize: 33.0,
+                                  onPressed: (){
+                                      setState(() {
+                                        likesCount++;
+                                      });
+                                  }
+                              ),
+                              Text(
+                                NumberFormat.compactCurrency(
+                                  decimalDigits: 0,
+                                  symbol: '',
+                                ).format(likesCount),
+                              ),
                             ],
                           ),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Icon(Icons.remove_red_eye),
-                              Text('40')
+                              IconButton(
+                                 icon: Icon(Icons.remove_red_eye),
+                                iconSize: 33.0,
+                                onPressed: (){
+
+                                }
+                              ),
+                              Text(
+                                NumberFormat.compactCurrency(
+                                  decimalDigits: 0,
+                                  symbol: '',
+                                ).format(viewsCount),
+                              ),
                             ],
                           ),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Icon(Icons.share),
+                              IconButton(
+                                  icon: Icon(Icons.share),
+                                  iconSize: 33.0,
+                                  onPressed: (){
+
+                                  }
+                              ),
                               Text('Share')
                             ],
                           ),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Icon(Icons.camera_alt),
+                              IconButton(
+                                icon: Icon(Icons.camera_alt),
+                                iconSize: 33.0,
+                                onPressed: (){
+
+                                }
+                              ),
                               Text('VideoIt')
                             ],
                           ),
                         ],
                       ),
+                      SizedBox(height: 4.0,)
                     ],
                   ),
                 ],

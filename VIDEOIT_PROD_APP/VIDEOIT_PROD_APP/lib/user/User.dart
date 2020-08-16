@@ -9,11 +9,11 @@ class User {
   static String _session;
   static String _username;
 
-  static void setUserPermission(List<dynamic> permission){
-    for(int i=0;i<permission.length;i++){
-      _userPermission.add(permission[i]);
-    }
-  }
+//  static void setUserPermission(List<dynamic> permission){
+//    for(int i=0;i<permission.length;i++){
+//      _userPermission.add(permission[i]);
+//    }
+//  }
 
   static void setUuid(String uuid){
     _uuid=uuid;
