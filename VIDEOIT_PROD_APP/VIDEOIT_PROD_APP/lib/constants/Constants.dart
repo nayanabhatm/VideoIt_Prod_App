@@ -4,6 +4,8 @@ import 'SizeConfig.dart';
 
 final kclientId="328151025381-k85qilpb2jutoavol4tfvioia10bq5ui.apps.googleusercontent.com";
 
+final kIPAddress="http://192.168.0.110:8999";
+
 final kNumberStyle=TextStyle(
     fontSize: 18.0,
     fontWeight: FontWeight.bold
@@ -55,4 +57,9 @@ final kBoxDecoration=BoxDecoration(
     ),
     borderRadius: BorderRadius.all(Radius.circular(30)),
     color: Colors.transparent
+);
+
+final kDisplayLetterInImage=TextStyle(
+  fontSize: 100.0,
+  fontWeight: FontWeight.bold,
 );

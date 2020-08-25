@@ -1,22 +1,34 @@
 /* contains getUser api details*/
 
 class UserProfileDetails{
-  final String userName,userDescription;
-  final int followersCount,followingCount,videoCount;
+  String _userName,_userDescription;
+  int _followersCount,_followingCount,_videoCount;
 
-  UserProfileDetails({this.userName,this.userDescription,this.followersCount,this.followingCount,this.videoCount});
+  void setUsername(String username){
+    _userName=username;
+  }
 
-  factory UserProfileDetails.fromJson(Map<String,dynamic> jsonResponse){
-    return UserProfileDetails(
-        userName:jsonResponse['userName'],
-        userDescription:jsonResponse['userDescription'],
-        followersCount:jsonResponse['followersCount'],
-        followingCount:jsonResponse['followingCount'],
-        videoCount:jsonResponse['videoCount'],
-    );
+  void setDescription(String description){
+    _userDescription=description;
+  }
+
+  void setFollowersCount(int followersCount){
+    _followersCount=followersCount;
+  }
+
+  void setFollowingCount(int followingCount){
+    _followingCount=followingCount;
+  }
+
+  void setVideoCount(int videoCount){
+    _videoCount=videoCount;
   }
 
 
-
+  int get videoCount=>_videoCount;
+  int get followingCount=>_followingCount;
+  int get followersCount => _followersCount;
+  String get username =>_userName;
+  String get userDescription => _userDescription;
 
 }

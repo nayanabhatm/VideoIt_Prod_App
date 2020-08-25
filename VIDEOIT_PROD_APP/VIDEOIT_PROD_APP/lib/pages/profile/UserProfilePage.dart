@@ -6,12 +6,12 @@ import 'package:videoit/APICalls.dart';
 import 'package:videoit/constants/Constants.dart';
 import 'package:videoit/user/User.dart';
 
-class MyUserProfile extends StatefulWidget{
+class UserProfile extends StatefulWidget{
   @override
-  _MyUserProfileState createState() => _MyUserProfileState();
+  _UserProfileState createState() => _UserProfileState();
 }
 
-class _MyUserProfileState extends State<MyUserProfile> {
+class _UserProfileState extends State<UserProfile> {
   Future futureUserProfileDetails;
   CachedNetworkImage userDisplayPic;
 
@@ -64,10 +64,9 @@ class _MyUserProfileState extends State<MyUserProfile> {
                     children: <Widget>[
                       RaisedButton(
                         color: Colors.pink.shade400,
-                        child: Text(
-                            'Edit Profile'),
+                        child: Text('Follow'),
                         onPressed: () {
-
+                            APICalls.incrementFollow();
                         },
                       )
                     ],

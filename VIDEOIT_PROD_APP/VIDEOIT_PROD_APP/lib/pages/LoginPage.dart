@@ -69,11 +69,11 @@ class LoginPage extends StatelessWidget {
                     decoration: kBoxDecoration,
                     child: GestureDetector(
                       onTap: () async{
-//                      String signUpReturnVal=await auth.signUpWithGoogle();
-//                      if(signUpReturnVal=='success')
-//                        Navigator.pushReplacementNamed(context, "/videoplay");
-//                      else
-//                        Navigator.pushReplacementNamed(context, "/");
+                      String signUpReturnVal=await Auth.signUpWithGoogle();
+                      if(signUpReturnVal=='success')
+                        Navigator.pushReplacementNamed(context, "/videoplay");
+                      else
+                        Navigator.pushReplacementNamed(context, "/");
 
                       },
                       child : Center(

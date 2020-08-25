@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
@@ -57,204 +56,203 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
       body: FutureBuilder(
         future: _futureInitializeVideoController,
         builder: (context,snapshot){
-          if(snapshot.connectionState == ConnectionState.waiting)
-            return Center(child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-            ));
-          else if(snapshot.hasError)
-              return Center(child: Text("${snapshot.error}"),
-              );
-          return Scaffold(
-            drawer: Container(
-              width: MediaQuery.of(context).size.width*0.3,
-              child: Drawer(
-                 child: ListView(
-                   children: [
-                     SizedBox(height: SizeConfig.safeBlockVertical*5),
-                     Column(
-                       children: [
-                         IconButton(
-                           onPressed: (){
-                             _videoPlayerController.pause();
-                             Navigator.pushNamed(context, '/myprofile');
-                           },
-                           icon: Icon(Icons.account_circle),
-                           iconSize: 40.0,
-                           color: Colors.pink,
-                         ),
-                         Text(
-                           "My Profile",
-                           textAlign: TextAlign.center,
-                         )
-                       ],
-                     ),
-                     SizedBox(height: SizeConfig.safeBlockVertical*4),
-                     Column(
-                       children: [
-                         IconButton(
-                           onPressed: (){
-
-                           },
-                           icon: Icon(Icons.settings),
-                           iconSize: 40.0,
-                           color: Colors.blueAccent,
-                         ),
-                         Text(
-                           "Settings",
-                           textAlign: TextAlign.center,
-                         )
-                       ],
-                     ),
-                     SizedBox(height: SizeConfig.safeBlockVertical*4),
-                     Column(
-                       children: [
-                         IconButton(
-                           onPressed: (){
-                                  Auth.logoutWithGoogle();
-                                  Navigator.pushReplacementNamed(context, '/');
-                           },
-                           icon: Icon(Icons.exit_to_app),
-                           iconSize: 40.0,
-                           color: Colors.purple,
-                         ),
-                         Text(
-                           "Sign Out",
-                           textAlign: TextAlign.center,
-                         )
-                       ],
-                     ),
-                     SizedBox(height: SizeConfig.safeBlockVertical*5),
-                   ],
-                 ),
-              ),
-            ),
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-            ),
-            body: Center(
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                      if (_videoPlayerController.value.isPlaying) {
-                        _videoPlayerController.pause();
-                      } else {
-                        _videoPlayerController.play();
-                      }
-                    },
-                    child: Container(
-                        child: AspectRatio(
-                          aspectRatio:_videoPlayerController.value.aspectRatio,
-                          child: Chewie(
-                            controller: _chewieController,
+          if(snapshot.connectionState==ConnectionState.done)
+            return Scaffold(
+              drawer: Container(
+                width: MediaQuery.of(context).size.width*0.3,
+                child: Drawer(
+                  child: ListView(
+                    children: [
+                      SizedBox(height: SizeConfig.safeBlockVertical*5),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+                              _videoPlayerController.pause();
+                              Navigator.pushNamed(context, '/myprofile');
+                            },
+                            icon: Icon(Icons.account_circle),
+                            iconSize: 40.0,
+                            color: Colors.pink,
                           ),
-                        )
-                    ),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
                           Text(
-                              "   Lambargini chalayi",
-                            ),
-                          Text("  Lambargini chalayi")
+                            "My Profile",
+                            textAlign: TextAlign.center,
+                          )
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
+                      SizedBox(height: SizeConfig.safeBlockVertical*4),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+
+                            },
+                            icon: Icon(Icons.settings),
+                            iconSize: 40.0,
+                            color: Colors.blueAccent,
+                          ),
+                          Text(
+                            "Settings",
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.safeBlockVertical*4),
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+                              Auth.logoutWithGoogle();
+                              Navigator.pushReplacementNamed(context, '/');
+                            },
+                            icon: Icon(Icons.exit_to_app),
+                            iconSize: 40.0,
+                            color: Colors.purple,
+                          ),
+                          Text(
+                            "Sign Out",
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.safeBlockVertical*5),
+                    ],
+                  ),
+                ),
+              ),
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+              ),
+              body: Center(
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: (){
+                        if (_videoPlayerController.value.isPlaying) {
+                          _videoPlayerController.pause();
+                        } else {
+                          _videoPlayerController.play();
+                        }
+                      },
+                      child: Container(
+                          child: AspectRatio(
+                            aspectRatio:_videoPlayerController.value.aspectRatio,
+                            child: Chewie(
+                              controller: _chewieController,
+                            ),
+                          )
+                      ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "   Lambargini chalayi",
+                            ),
+                            Text("  Lambargini chalayi")
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
                                   icon: Icon(Icons.account_circle),
                                   iconSize: 33.0,
-                                onPressed: (){
-                                  _videoPlayerController.pause();
-                                  Navigator.pushNamed(context, '/userprofile');
-                                },
-                              ),
-                              Text('Profile')
-                            ],
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(Icons.thumb_up),
-                                  iconSize: 33.0,
                                   onPressed: (){
+                                    print(snapshot.data);
+                                    _videoPlayerController.pause();
+                                    Navigator.pushNamed(context, '/userprofile');
+                                  },
+                                ),
+                                Text('Profile')
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
+                                    icon: Icon(Icons.thumb_up),
+                                    iconSize: 33.0,
+                                    onPressed: (){
                                       setState(() {
                                         likesCount++;
                                       });
-                                  }
-                              ),
-                              Text(
-                                NumberFormat.compactCurrency(
-                                  decimalDigits: 0,
-                                  symbol: '',
-                                ).format(likesCount),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                 icon: Icon(Icons.remove_red_eye),
-                                iconSize: 33.0,
-                                onPressed: (){
+                                    }
+                                ),
+                                Text(
+                                  formatNumber(likesCount),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
+                                    icon: Icon(Icons.remove_red_eye),
+                                    iconSize: 33.0,
+                                    onPressed: (){
 
-                                }
-                              ),
-                              Text(
-                                NumberFormat.compactCurrency(
-                                  decimalDigits: 0,
-                                  symbol: '',
-                                ).format(viewsCount),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                  icon: Icon(Icons.share),
-                                  iconSize: 33.0,
-                                  onPressed: (){
+                                    }
+                                ),
+                                Text(
+                                  formatNumber(viewsCount),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
+                                    icon: Icon(Icons.share),
+                                    iconSize: 33.0,
+                                    onPressed: (){
 
-                                  }
-                              ),
-                              Text('Share')
-                            ],
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.camera_alt),
-                                iconSize: 33.0,
-                                onPressed: (){
+                                    }
+                                ),
+                                Text('Share')
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
+                                    icon: Icon(Icons.camera_alt),
+                                    iconSize: 33.0,
+                                    onPressed: (){
 
-                                }
-                              ),
-                              Text('VideoIt')
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4.0,)
-                    ],
-                  ),
-                ],
+
+                                    }
+                                ),
+                                Text('VideoIt')
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4.0,)
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          else if(snapshot.hasError)
+              return Center(child: Text("${snapshot.error}"),
+              );
+          else if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            ));
+          }
+          return Container(color: Colors.blue,);
         },
       ),
     );
@@ -266,6 +264,13 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
     _chewieController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+
+  String formatNumber(int value) {
+    return NumberFormat.compactCurrency(
+        decimalDigits: 0,
+        symbol: '').format(value);
   }
 
 

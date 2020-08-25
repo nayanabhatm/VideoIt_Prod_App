@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:videoit/user/UserInformation.dart';
 
 import 'package:videoit/constants/SizeConfig.dart';
 import 'package:videoit/constants/Constants.dart';
@@ -14,7 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   GoogleSignIn googleSignIn;
-  UserInformation userInformation = UserInformation();
 
   @override
   void initState() {
@@ -51,8 +49,13 @@ class _HomePageState extends State<HomePage> {
                 )
             ),
             SizedBox(height: SizeConfig.safeBlockHorizontal*70),
-            CircularProgressIndicator (
-              backgroundColor: Colors.white,
+            Flex(
+              direction: Axis.vertical,
+              children: [
+                CircularProgressIndicator (
+                  backgroundColor: Colors.white,
+                ),
+              ],
             )
           ],
         ),
@@ -64,19 +67,11 @@ class _HomePageState extends State<HomePage> {
     bool isUserSignedIn = await googleSignIn.isSignedIn();
 
     if(isUserSignedIn) {
-        GoogleSignInAccount user = await googleSignIn.signIn();
         GoogleSignInAccount account = googleSignIn.currentUser;
-
-        if(account != null) {
-          GoogleSignInAuthentication authentication = await account.authentication;
-          userInformation.setEmailId(account.email);
-          userInformation.setUsername(account.displayName);
-          userInformation.setToken(authentication.idToken);
+        if(account != null)
           Navigator.pushReplacementNamed(context, "/userprofile");
-        }
-        else {
+        else
            Navigator.pushReplacementNamed(context, "/login");
-        }
     }
     else {
       Navigator.pushReplacementNamed(context, "/login");

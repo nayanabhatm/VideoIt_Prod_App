@@ -1,15 +1,17 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:videoit/pages/HomePage.dart';
 import 'package:videoit/pages/LoginPage.dart';
 import 'package:videoit/pages/VideoPlayPage.dart';
+import 'package:videoit/pages/VideoRecordingPage.dart';
 import 'package:videoit/pages/profile/MyProfilePage.dart';
+import 'package:videoit/pages/profile/UserProfilePage.dart';
 
+List<CameraDescription> cameras;
 
-
-void main() {
-
+Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -43,8 +45,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/" : (_)=> HomePage(),
         "/login" : (_)=> LoginPage(),
-        "/userprofile" : (_)=> UserProfile('userProfile'),
-        "/myprofile" : (_)=> UserProfile('myProfile'),
+        "/userprofile" : (_)=> UserProfile(),
+        "/myprofile" : (_)=> MyUserProfile(),
         "/videoplay" : (_) => VideoPlayScreen()
       },
 

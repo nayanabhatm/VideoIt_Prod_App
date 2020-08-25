@@ -1,5 +1,5 @@
 /*
- * Contains user information received from backend server.
+ * Contains user information received from backend server and other api calls.
  */
 
 class User {
@@ -9,11 +9,11 @@ class User {
   static String _session;
   static String _username;
 
-//  static void setUserPermission(List<dynamic> permission){
-//    for(int i=0;i<permission.length;i++){
-//      _userPermission.add(permission[i]);
-//    }
-//  }
+  static void setUserPermission(List<dynamic> permission){
+    for(int i=0;i<permission.length;i++){
+      _userPermission.add(permission[i]);
+    }
+  }
 
   static void setUuid(String uuid){
     _uuid=uuid;
@@ -30,5 +30,7 @@ class User {
   static String get uuid => _uuid;
   static String get session => _session;
   static String get username => _username;
+  static List<dynamic> get permissions => _userPermission;
+
 
 }
