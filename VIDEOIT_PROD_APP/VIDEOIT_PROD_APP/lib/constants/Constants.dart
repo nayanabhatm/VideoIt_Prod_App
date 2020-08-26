@@ -4,7 +4,7 @@ import 'SizeConfig.dart';
 
 final kclientId="328151025381-k85qilpb2jutoavol4tfvioia10bq5ui.apps.googleusercontent.com";
 
-final kIPAddress="http://192.168.0.110:8999";
+final kIPAddress="http://192.168.0.101:8999";
 
 final kNumberStyle=TextStyle(
     fontSize: 18.0,

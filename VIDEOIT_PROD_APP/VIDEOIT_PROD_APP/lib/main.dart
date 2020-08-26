@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +8,6 @@ import 'package:videoit/pages/VideoRecordingPage.dart';
 import 'package:videoit/pages/profile/MyProfilePage.dart';
 import 'package:videoit/pages/profile/UserProfilePage.dart';
 
-List<CameraDescription> cameras;
 
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -47,7 +45,8 @@ class MyApp extends StatelessWidget {
         "/login" : (_)=> LoginPage(),
         "/userprofile" : (_)=> UserProfile(),
         "/myprofile" : (_)=> MyUserProfile(),
-        "/videoplay" : (_) => VideoPlayScreen()
+        "/videoplay" : (_) => VideoPlayScreen(),
+        "/videoRecording" : (_)=> VideoRecording(),
       },
 
     );

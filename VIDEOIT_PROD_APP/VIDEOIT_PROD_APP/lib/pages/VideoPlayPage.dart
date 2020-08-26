@@ -228,8 +228,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                                     icon: Icon(Icons.camera_alt),
                                     iconSize: 33.0,
                                     onPressed: (){
-
-
+                                        _videoPlayerController.pause();
+                                        Navigator.pushNamed(context,'/videoRecording');
                                     }
                                 ),
                                 Text('VideoIt')
@@ -244,15 +244,13 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                 ),
               ),
             );
-          else if(snapshot.hasError)
-              return Center(child: Text("${snapshot.error}"),
-              );
           else if(snapshot.connectionState==ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-            ));
+            return Center(child: CircularProgressIndicator(backgroundColor: Colors.white, strokeWidth: 4.0,));
           }
-          return Container(color: Colors.blue,);
+          else if(snapshot.hasError)
+            return Center(child: Text("${snapshot.error}"),
+            );
+          return Spacer();
         },
       ),
     );

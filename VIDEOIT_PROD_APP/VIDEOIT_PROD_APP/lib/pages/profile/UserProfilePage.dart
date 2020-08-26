@@ -154,9 +154,7 @@ class _UserProfileState extends State<UserProfile> {
               print(snapshot.error);
               return Text("${snapshot.error}");
             }
-            return Center(child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-            ));
+            return Center(child: CircularProgressIndicator(backgroundColor: Colors.white, strokeWidth: 4.0,));
           },
         ),
       ),

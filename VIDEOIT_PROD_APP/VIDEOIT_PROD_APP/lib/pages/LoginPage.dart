@@ -4,12 +4,19 @@ import 'package:videoit/authentication/google_auth.dart';
 import 'package:videoit/constants/Constants.dart';
 import 'package:videoit/constants/SizeConfig.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool isLoading=false;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-        body: SingleChildScrollView(
+        body: isLoading? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, strokeWidth: 4.0,)): SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -38,6 +45,9 @@ class LoginPage extends StatelessWidget {
                         String loginReturnVal=await Auth.loginWithGoogle();
                         print("loginReturnval...$loginReturnVal");
                         if(loginReturnVal=='success') {
+                          setState(() {
+                            isLoading=true;
+                          });
                           Navigator.pushReplacementNamed(context, "/videoplay");
                         }
                         else
@@ -70,8 +80,12 @@ class LoginPage extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () async{
                       String signUpReturnVal=await Auth.signUpWithGoogle();
-                      if(signUpReturnVal=='success')
+                      if(signUpReturnVal=='success'){
+                        setState(() {
+                          isLoading=true;
+                        });
                         Navigator.pushReplacementNamed(context, "/videoplay");
+                      }
                       else
                         Navigator.pushReplacementNamed(context, "/");
 
@@ -121,6 +135,4 @@ class LoginPage extends StatelessWidget {
         backgroundColor: Colors.black
     );
   }
-
-
 }
