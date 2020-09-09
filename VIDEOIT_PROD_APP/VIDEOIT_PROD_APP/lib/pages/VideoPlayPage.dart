@@ -4,6 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:videoit/authentication/google_auth.dart';
 import 'dart:io';
+import 'package:videoit/formatNumber.dart';
 
 import 'package:videoit/constants/SizeConfig.dart';
 
@@ -13,18 +14,19 @@ class VideoPlayScreen extends StatefulWidget {
 }
 
 class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingObserver{
-  //final String videoFileUrl='https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4';
-  final String videoFileName='/storage/emulated/0/Status Keeper/VID-20181022-WA0000-1.mp4';
+  final String videoFileUrl='https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4';
+  //final String videoFileName='/storage/emulated/0/Status Keeper/VID-20181022-WA0000-1.mp4';
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
   Future<void> _futureInitializeVideoController;
   int likesCount=0,viewsCount=0;
+  GoogleAuthentication googleAuthentication=GoogleAuthentication();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _videoPlayerController= VideoPlayerController.file(File(videoFileName));
+    _videoPlayerController= VideoPlayerController.network(videoFileUrl);
     _futureInitializeVideoController=initVideoPlayer();
     setState(() {
     });
@@ -46,7 +48,16 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
    @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // TODO: implement didChangeAppLifecycleState
-    print("..........state: $state");
+    if(state==AppLifecycleState.paused || state==AppLifecycleState.inactive||state==AppLifecycleState.detached){
+      if(_videoPlayerController!=null){
+        _videoPlayerController.pause();
+      }
+    }
+    else if(state==AppLifecycleState.resumed){
+      if(_videoPlayerController!=null){
+        _videoPlayerController.play();
+      }
+    }
   }
 
   @override
@@ -103,7 +114,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
                         children: [
                           IconButton(
                             onPressed: (){
-                              Auth.logoutWithGoogle();
+                              googleAuthentication.logoutWithGoogle();
                               Navigator.pushReplacementNamed(context, '/');
                             },
                             icon: Icon(Icons.exit_to_app),
@@ -262,13 +273,6 @@ class _VideoPlayScreenState extends State<VideoPlayScreen> with WidgetsBindingOb
     _chewieController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-
-  String formatNumber(int value) {
-    return NumberFormat.compactCurrency(
-        decimalDigits: 0,
-        symbol: '').format(value);
   }
 
 

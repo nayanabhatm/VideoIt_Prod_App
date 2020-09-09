@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:videoit/constants/SizeConfig.dart';
 import 'package:videoit/constants/Constants.dart';
 

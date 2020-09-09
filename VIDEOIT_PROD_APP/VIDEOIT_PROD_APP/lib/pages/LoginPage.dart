@@ -12,11 +12,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool isLoading=false;
 
+  GoogleAuthentication googleAuthentication=GoogleAuthentication();
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-        body: isLoading? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, strokeWidth: 4.0,)): SingleChildScrollView(
+        body: isLoading? Center(child: CircularProgressIndicator(backgroundColor: Colors.white, strokeWidth: 4.0,)):
+        SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -42,16 +45,21 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: kBoxDecoration,
                     child: GestureDetector(
                       onTap: () async {
-                        String loginReturnVal=await Auth.loginWithGoogle();
-                        print("loginReturnval...$loginReturnVal");
-                        if(loginReturnVal=='success') {
-                          setState(() {
-                            isLoading=true;
-                          });
-                          Navigator.pushReplacementNamed(context, "/videoplay");
+                        setState(() {
+                          isLoading=true;
+                        });
+                        try{
+                            String loginReturnVal=await googleAuthentication.loginWithGoogle();
+  
+                            print("loginReturnval...$loginReturnVal");
+                            if(loginReturnVal=='Error')
+                              showErrorDialog('Incorrect Login');
+                            else
+                              Navigator.pushReplacementNamed(context, "/videoplay");
                         }
-                        else
-                            Navigator.pushReplacementNamed(context, "/");
+                        catch(e){
+                          print(e);
+                        }
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -79,15 +87,15 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: kBoxDecoration,
                     child: GestureDetector(
                       onTap: () async{
-                      String signUpReturnVal=await Auth.signUpWithGoogle();
-                      if(signUpReturnVal=='success'){
                         setState(() {
                           isLoading=true;
                         });
-                        Navigator.pushReplacementNamed(context, "/videoplay");
-                      }
-                      else
-                        Navigator.pushReplacementNamed(context, "/");
+                      String signUpReturnVal=await googleAuthentication.signUpWithGoogle();
+//                      if(signUpReturnVal=='success'){
+//                        Navigator.pushReplacementNamed(context, "/videoplay");
+//                      }
+//                      else
+//                        Navigator.pushReplacementNamed(context, "/");
 
                       },
                       child : Center(
@@ -133,6 +141,24 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         backgroundColor: Colors.black
+    );
+  }
+
+  void showErrorDialog(String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text(title),
+          actions: [
+            FlatButton(
+                onPressed: (){
+                  Navigator.pushReplacementNamed(context, "/");
+                },
+                child: Text("Login"))
+          ],
+        );
+      }
     );
   }
 }

@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:videoit/APICalls.dart';
+import 'package:videoit/service_api.dart';
 import 'package:videoit/constants/Constants.dart';
 import 'package:videoit/user/User.dart';
+import 'package:videoit/pages/profile/ProfileDPAndCountWidget.dart';
 
 class MyUserProfile extends StatefulWidget{
   @override
@@ -13,15 +14,19 @@ class MyUserProfile extends StatefulWidget{
 
 class _MyUserProfileState extends State<MyUserProfile> {
   Future futureUserProfileDetails;
+  Future futureVideoList;
   CachedNetworkImage userDisplayPic;
+  ServiceAPI serviceAPI=ServiceAPI();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     try {
-      futureUserProfileDetails = APICalls.getUser();
-      getDisplayPic();
+      futureUserProfileDetails = serviceAPI.getUser();
+      userDisplayPic=getDisplayPic();
+      futureVideoList=serviceAPI.getUserVideos();
+      //futureVideoList.then((value) => print("uservideodetails: ${value[0].videoId} ${value[1].videoId}-----$value"));
     }
     catch (e) {
       print(e);
@@ -33,13 +38,14 @@ class _MyUserProfileState extends State<MyUserProfile> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: Container(
+            body: Container(
         color: Colors.blueGrey.shade900,
         padding: EdgeInsets.only(top: 30.0),
         child: FutureBuilder(
-          future: futureUserProfileDetails,
-          builder: (context, snapshot) {
+          future: Future.wait([futureUserProfileDetails,futureVideoList]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
             if (snapshot.hasData) {
+              print("aaaaaaa ${snapshot.data[1]} ${snapshot.data[0]}");
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -54,7 +60,7 @@ class _MyUserProfileState extends State<MyUserProfile> {
                   SizedBox(height: 8.0,),
                   Center(
                     child: Text(
-                        '${snapshot.data.username}',
+                        '${snapshot.data[0].userName}',
                         //'${snapshot.data.userName[0].toString().toUpperCase()}${snapshot.data.userName.toString().substring(1)}',
                         style: kNameStyle
                     ),
@@ -77,7 +83,8 @@ class _MyUserProfileState extends State<MyUserProfile> {
                         left: 18.0, right: 18.0, bottom: 12.0, top: 6.0),
                     child: Center(
                       child: Text(
-                        '${snapshot.data.userDescription ?? 'Description'}',
+                        //'${snapshot.data.userDescription ?? 'Description'}',
+                        "Description is null for now. No field",
                         textAlign: TextAlign.center,
                         style: kDescriptionStyle,
                       ),
@@ -87,46 +94,13 @@ class _MyUserProfileState extends State<MyUserProfile> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              formatNumber(snapshot.data.videoCount),
-                              style: kNumberStyle,
-                            ),
-                            Text(
-                              "Posts",
-                              style: kNumberDescriptionStyle,
-                            )
-                          ],
-                        ),
+                        child: individualCountWidget("Posts",snapshot.data[0].videoCount),
                       ),
                       Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              formatNumber(snapshot.data.followersCount),
-                              style: kNumberStyle,
-                            ),
-                            Text(
-                              "Followers",
-                              style: kNumberDescriptionStyle,
-                            )
-                          ],
-                        ),
+                        child: individualCountWidget("Followers", snapshot.data[0].followersCount),
                       ),
                       Expanded(
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              formatNumber(snapshot.data.followingCount),
-                              style: kNumberStyle,
-                            ),
-                            Text(
-                              "Following",
-                              style: kNumberDescriptionStyle,
-                            )
-                          ],
-                        ),
+                        child: individualCountWidget("Following",snapshot.data[0].followingCount),
                       ),
                     ],
                   ),
@@ -135,17 +109,19 @@ class _MyUserProfileState extends State<MyUserProfile> {
                     child: GridView.builder(
                         physics: BouncingScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                        crossAxisCount: 3,
                         ),
-                        itemCount: 12,
+                        itemCount: (snapshot.data[1] !=null)? snapshot.data[1].length:0,
                         itemBuilder: (context, index) {
-                          return Container(
-                            child: Image.asset(
-                              'assets/avatar2.jpg',
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        }
+                        return Container(
+                        child: (snapshot.data[1] !=null)? Image.network(
+                          "$kIPAddress:9000/content/management/video/getThumbnail/${snapshot.data[1][index].videoId.toString()}",
+                          headers: {'Content-Type':'application/json','VI_SESSION':'${serviceAPI.session}','VI_UID':'${serviceAPI.uuid}'},
+                          fit: BoxFit.cover,
+                        ): Container(),
+                        //color: Colors.blueAccent,
+                        );
+                      }
                     ),
                   )
                 ],
@@ -161,68 +137,6 @@ class _MyUserProfileState extends State<MyUserProfile> {
       ),
     );
   }
-
-  String formatNumber(int value) {
-    return NumberFormat.compactCurrency(
-        decimalDigits: 0,
-        symbol: ''
-    ).format(value);
-  }
-
-  void getDisplayPic() {
-    userDisplayPic = CachedNetworkImage(
-      imageUrl: kIPAddress + "/session/getDisplayPic/${User.username}",
-      imageBuilder: (context, imageProvider) {
-        return Container(
-          width: 180,
-          height: 180,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                  width: 2, color: Colors.white, style: BorderStyle.solid),
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              )
-          ),
-        );
-      },
-      httpHeaders: {
-        'Content-Type': 'application/json',
-        'VI_SESSION': '${User.session}',
-        'VI_UID': '${User.uuid}'
-      },
-      placeholder: (context, url) {
-        return CircularProgressIndicator();
-      },
-      errorWidget: (context, err, o) {
-        print(err);
-        return Container(
-          width: 180,
-          height: 180,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                  width: 2, color: Colors.white, style: BorderStyle.solid),
-              image: DecorationImage(
-                image: AssetImage('assets/blackbkg.jpeg'),
-                fit: BoxFit.cover,
-              )
-          ),
-          child: Container(
-            child: Center(
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Text(
-                  '${User.username[0].toString().toUpperCase()}',
-                  style: kDisplayLetterInImage,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
 }
+
+

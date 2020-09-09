@@ -5,6 +5,9 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/VIDEOIT_PROD_APP/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/VIDEOIT_PROD_APP/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/VIDEOIT_PROD_APP/android/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/VIDEOIT_PROD_APP/android/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/VIDEOIT_PROD_APP/android/build" />
       <excludeFolder url="file://$MODULE_DIR$/VIDEOIT_PROD_APP/build" />
       <excludeFolder url="file://$MODULE_DIR$/karthik_videoit/.pub" />
     </content>
